@@ -1,0 +1,26 @@
+{
+    "name": "odataIntegration",
+    "version": "1.0.0",
+    "description": "A simple CAP project.",
+    "repository": "<Add your repository here>",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+        "@sap/cds": "^4",
+        "@sap/xsenv": "^3.1.0",
+        "@sap/xssec": "^3.0.10",
+        "express": "^4.17.1",
+        "passport": "^0.4.1"
+    },
+    "devDependencies": {
+        "sqlite3": "^5"
+    },
+    "scripts": {
+        "start": "npx cds run"
+    },
+    "cds": {
+        "uaa": {
+            "kind": "xsuaa"
+        }
+    }
+}

@@ -1,0 +1,56 @@
+## Generated mta.yaml based on template version 0.4.0
+## appName = odataIntegration
+## language=nodejs; multiTenant=false
+## approuter=
+_schema-version: '3.1'
+ID: odataIntegration
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+   
+build-parameters:
+  before-all:
+   - builder: custom
+     commands:
+      - npm install --production
+      - npx -p @sap/cds-dk cds build --production
+
+modules:
+ # --------------------- SERVER MODULE ------------------------
+ - name: odataIntegration-srv
+ # ------------------------------------------------------------
+   type: nodejs
+   path: gen/srv
+   requires:
+    - name: Xuaa-Instance
+    - name: Destiation-Instance
+   provides:
+    - name: srv-api      # required by consumers of CAP services (e.g. approuter)
+      properties:
+        srv-url: ${default-url}
+        
+resources:
+# ------------------------------------------------------------
+ - name: Xuaa-Instance
+# ------------------------------------------------------------
+   type: org.cloudfoundry.managed-service
+   parameters:
+     path: ./xs-security.json 
+     service: xsuaa
+     service-plan: application  
+     config:
+       xsappname: Xuaa-Instance   
+       tenant-mode: dedicated
+       
+# ------------------------------------------------------------
+ - name: Destiation-Instance
+# ------------------------------------------------------------
+   type: org.cloudfoundry.managed-service
+   
+   parameters:
+     service: destination
+     service-plan: lite  
+     config:
+       service-name: Destiation-Instance
+
